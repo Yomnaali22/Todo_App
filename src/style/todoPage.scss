@@ -1,0 +1,21 @@
+.grid-container{
+    display: grid;
+    grid-template-columns: 700px;
+    grid-template-rows: 300px;
+    justify-items: stretch;
+    align-items: center;
+    grid-row-gap: 70px;
+}
+
+.navbar{
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
+
+.todos{
+}
+
+.apiTodos{
+    grid-column-start: 1;
+    grid-column-end: 3;
+}
