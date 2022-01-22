@@ -1,69 +1,64 @@
 import React from 'react'
 import { useEffect, useState } from 'react';
 import ApiTodo from './ApiTodo';
-import axios from 'axios';
-
 
 export default function ApiTodos(){
     const [list, setList] = useState([])
+
     const [completedTodos, setCompletedTodos] = useState([])
     
-    //the url of the tasks
     const getTasksURL = 'https://api-nodejs-todolist.herokuapp.com/task';
 
-    //completed tasks url 
     const completedTasksUrl = 'https://api-nodejs-todolist.herokuapp.com/task?completed=true';
 
-    //the token of the logged in user
-    let userToken = localStorage.getItem('LoginToken');
+    const loginToken = localStorage.getItem('LoginToken');
 
+    const token = localStorage.getItem('Token')
 
-    //marwanshehatashehata
+    const getToken = loginToken || token
+
+    console.log(loginToken)
+
     useEffect(() => {
         getCompleted()
         getData()
-    }, [])
+    }
+    , [])
 
-
-    
-const completedReqInfo = { 
-    method: 'GET', 
-    headers: { Authorization: 'Bearer ' + userToken, "Content-Type": "application/json" },
-    redirect: 'follow'
+const getData = async()=> {
+    try{
+        const response = await fetch(getTasksURL, {
+            method: 'GET', 
+            headers: { Authorization: getToken, "Content-Type": "application/json" },
+        })
+        const result = await response.json()
+        const tasks = result.data
+        console.log('this is tasks', tasks)
+        return setList([...tasks])
+    } catch (err) {
+        console.error(err);
+    }
 }
 
 const getCompleted = async () => {
     try {
-        const res = await axios.get(completedTasksUrl, completedReqInfo);
-        const completed = res.data.data
+        const response = await fetch(completedTasksUrl, {
+            method: 'GET', 
+            headers: {Authorization: 'Bearer ' + getToken, "Content-Type": "application/json"}
+        });
+        const result = await response.json()
+        const completed = result.data
         setCompletedTodos([...completed])
     } catch (err) {
-        // Handle Error Here
         console.error(err);
     }
 };
-const getRequestInfo = { 
-    method: 'GET', 
-    headers: { Authorization: 'Bearer ' + userToken, "Content-Type": "application/json" },
-    redirect: 'follow'
-}
 
-const getData = async () => {
-    try {
-        const res = await axios.get(getTasksURL, getRequestInfo);
-        const tasks = res.data.data
-        setList([...tasks])
-    } catch (err) {
-        // Handle Error Here
-        console.error(err);
-    }
-};
+console.log('completed', completedTodos)
 
     return (
         <div style={{textAlign: 'center'}}>
-            {//loopging over list in a reverse order and creating a new array
-            list.slice().reverse().map(todo =>
-                //for each item in the array an apiTodo component is rendered with the following props
+            {list.slice().reverse().map(todo =>
             <ApiTodo 
             key={todo['_id']}
             id={todo['_id']} 
@@ -72,7 +67,7 @@ const getData = async () => {
             getData={getData}
             list={list}
             setList={setList}
-            userToken={userToken}
+            loginToken={loginToken}
             />
             )}
         </div>

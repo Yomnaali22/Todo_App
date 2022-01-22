@@ -1,13 +1,13 @@
 import React from 'react'
 
-export default function Accountsettings() {
+export default function Accountsettings(){
     
     let uploadUrl = 'https://api-nodejs-todolist.herokuapp.com/user/me/avatar'
 
     let deleteImageURL = 'https://api-nodejs-todolist.herokuapp.com/user/me/avatar'
 
     const token = localStorage.getItem('LoginToken');
-
+    
     const uploadAvatar = event => {
         event.preventDefault()
         const formData = new FormData()

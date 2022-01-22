@@ -3,13 +3,11 @@ import RegistrationForm from '../atomic/RegistrationForm';
 
 export default function RegistrationPage(){
     return(
-        <div className="bg">
         <div>
-            <h1 className="text-center">
-                Todo App
-            </h1>
+            <body className='background'>
+            <h1 class="jumbotron text-center"> Todo App </h1>
             <RegistrationForm />
-        </div>
+            </body>
         </div>
     )
 }
