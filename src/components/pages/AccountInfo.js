@@ -3,7 +3,6 @@ import { useHistory } from 'react-router'
 import Accountsettings from '../atomic/Accountsettings'
 
 
-//presentational
 export default function AccountInfo() {
     
     let history = useHistory()
